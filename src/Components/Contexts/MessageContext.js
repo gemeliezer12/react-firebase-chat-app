@@ -39,8 +39,12 @@ export const MessageProvider = ({ children }) => {
 
         for (let i = 0; i < messages.length; i++) {
             const message = messages[i]._delegate._document.data.value.mapValue.fields
-            const user = (await db.collection("users").doc(message.userId.stringValue).get())._delegate._document.data.value.mapValue.fields
-            const server = (await db.collection("servers").doc(message.serverId.stringValue).get())._delegate._document.data.value.mapValue.fields
+
+            const promise = await Promise.all([db.collection("users").doc(message.userId.stringValue).get(), db.collection("servers").doc(message.serverId.stringValue).get()])
+
+            const user = promise[0]._delegate._document.data.value.mapValue.fields
+            const server = promise[1]._delegate._document.data.value.mapValue.fields
+
             results.push({message: message, user: user, server: server, id: messages[i].id})
         }
         

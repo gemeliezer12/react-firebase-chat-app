@@ -18,7 +18,8 @@ export const MessageProvider = ({ children }) => {
     
     const [messagesOfServer, setmessagesOfServer] = useState()
     const [gettingMessagesOfServer, setgettingMessagesOfServer] = useState(true)
-
+    const [usersOfServer, setusersOfServer] = useState()
+    const [gettingUsersOfServer, setgettingUsersOfServer] = useState()
     
 
     const sendMessage = async (e) => {
@@ -50,17 +51,37 @@ export const MessageProvider = ({ children }) => {
         
         if (serverId !== window.location.pathname.split("/")[2]) return
 
+        
         setmessagesOfServer(results)
         setgettingMessagesOfServer(false)
     }
 
+    const getUsersOfServer = async (serverId) => {
+        const results = []
+
+        const users = (await db.collection("users").where("joinedServers", "array-contains", serverId).get()).docs
+
+        for (let i = 0; i < users.length; i++) {
+            const user = users[i]._delegate._document.data.value.mapValue.fields
+
+            results.push({user: user, id: users[i].id})
+            
+        }
+
+        setusersOfServer(results)
+        setgettingUsersOfServer(false)
+    }
+
     useEffect( () => {
         setgettingMessagesOfServer(true)
+        setgettingUsersOfServer(true)
         getMessagesOfServer(joinedServer)
+        getUsersOfServer(joinedServer)
     }, [])
 
     useEffect(() => {
         getMessagesOfServer(joinedServer)
+        getUsersOfServer(joinedServer)
     }, [joinedServer])
 
     useEffect( () => {
@@ -74,7 +95,8 @@ export const MessageProvider = ({ children }) => {
     const value = {
         sendMessage,
         gettingMessagesOfServer,
-        messagesOfServer
+        messagesOfServer,
+        usersOfServer
     }
 
     return (

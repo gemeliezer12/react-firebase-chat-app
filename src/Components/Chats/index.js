@@ -3,6 +3,7 @@
 import Sidebar from "./Sidebar/"
 import Conversation from "./Conversation/"
 import Channels from "./Channels/"
+import Users from "./Users/"
 
 const Index = () => {
 
@@ -23,11 +24,7 @@ const Index = () => {
                 </div>
                 <div className="btaavqorla">
                     <Conversation/>
-                    <div className="users" style={{
-                        backgroundColor: "var(--bg-color-3)"
-                    }}>
-                        
-                    </div>
+                    <Users/>
                 </div>
             </div>
         </div>

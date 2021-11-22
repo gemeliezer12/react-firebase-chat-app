@@ -19,7 +19,7 @@
 
 .btaavqorla {
   display: grid;
-  grid-template-columns: 1fr 0px;
+  grid-template-columns: 1fr;
 }
 
 @media only screen and (min-width: 400px) {

@@ -116,6 +116,11 @@ body.light {
   white-space: pre-wrap;
 }
 
+.ws-no-wrap {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 body {
   background-color: var(--bg-color-2);
   font-family: "sofia-pro", sans-serif;

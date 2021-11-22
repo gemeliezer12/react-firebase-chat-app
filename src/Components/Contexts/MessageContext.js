@@ -37,8 +37,6 @@ export const MessageProvider = ({ children }) => {
             return
         }
 
-        console.log(includesObject(joinedServers, "id", joinedServer));
-
         const messages = (await db.collection("messages").where("serverId", "==", serverId).get()).docs
 
 

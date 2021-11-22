@@ -1,9 +1,10 @@
 const User = ({user, id}) => {
-    console.log(user, id)
 
     const image = () => {
         return user.profilePicture.stringValue.split(":")[0] !== "https" ? `../../images/${user.profilePicture.stringValue}` : user.profilePicture.stringValue
     }
+
+    
 
     return (
         <div className="row gap-10 align-center padding-x-10" style={{

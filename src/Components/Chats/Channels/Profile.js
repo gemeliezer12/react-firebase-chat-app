@@ -1,5 +1,6 @@
 const Profile = ({user}) => {
 
+    
     const image = () => {
         return user.profilePicture.stringValue.split(":")[0] !== "https" ? `../../images/${user.profilePicture.stringValue}` : user.profilePicture.stringValue
     }

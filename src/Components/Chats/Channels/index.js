@@ -4,6 +4,7 @@ import Profile from "./Profile"
 
 const Index = () => {
     const { user } = useUser()
+    
 
     return (
         <div className="channels" style={{

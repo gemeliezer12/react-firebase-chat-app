@@ -11,7 +11,6 @@ export const useUser = () => useContext(UserContext)
 
 export const UserProvider = ({ children }) => {
     const [user, setuser] = useState(null)
-    const [gettingUser, setgettingUser] = useState(true)
     const navigate = useNavigate()
     
     const getUser = async (user) => {
@@ -23,9 +22,22 @@ export const UserProvider = ({ children }) => {
             {user: response, id: user}
         )
     }
+    
+    const includesObject = (array, key, value ) => {
+
+
+        for (let i = 0; i < array.length; i++) {
+            
+            if(eval(`array[i].${key}`) === value) {
+                return true
+            }
+            
+        }
+
+        return false
+    }
 
     useEffect(() => {
-        setgettingUser(true)
         firebase.auth().onAuthStateChanged( async (user) => {
             if (user) {
                 await getUser(user.uid)
@@ -33,17 +45,17 @@ export const UserProvider = ({ children }) => {
             else {
                 navigate("/")
             }
-            setgettingUser(false)
         })
     }, [])
 
     const value = {
         user,
+        includesObject
     }
 
     return (
         <UserContext.Provider value={value}>
-            { !gettingUser && children }
+            { user && children }
         </UserContext.Provider>
     )
 }

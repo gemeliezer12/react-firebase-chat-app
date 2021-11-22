@@ -13,13 +13,10 @@ export const useMessage = () => useContext(MessageContext)
 
 export const MessageProvider = ({ children }) => {
 
-    const { user } = useUser()
-    const { joinedServer } = useServer()
-    
+    const { user, includesObject } = useUser()
+    const { joinedServer, joinedServers } = useServer()
     const [messagesOfServer, setmessagesOfServer] = useState()
-    const [gettingMessagesOfServer, setgettingMessagesOfServer] = useState(true)
     const [usersOfServer, setusersOfServer] = useState()
-    const [gettingUsersOfServer, setgettingUsersOfServer] = useState()
     
 
     const sendMessage = async (e) => {
@@ -34,6 +31,13 @@ export const MessageProvider = ({ children }) => {
 
     const getMessagesOfServer = async (serverId) => {
         let results = []
+
+        if (!includesObject(joinedServers, "id", joinedServer)) {
+            setmessagesOfServer(null)
+            return
+        }
+
+        console.log(includesObject(joinedServers, "id", joinedServer));
 
         const messages = (await db.collection("messages").where("serverId", "==", serverId).get()).docs
 
@@ -53,7 +57,6 @@ export const MessageProvider = ({ children }) => {
 
         
         setmessagesOfServer(results)
-        setgettingMessagesOfServer(false)
     }
 
     const getUsersOfServer = async (serverId) => {
@@ -69,12 +72,9 @@ export const MessageProvider = ({ children }) => {
         }
 
         setusersOfServer(results)
-        setgettingUsersOfServer(false)
     }
 
     useEffect( () => {
-        setgettingMessagesOfServer(true)
-        setgettingUsersOfServer(true)
         getMessagesOfServer(joinedServer)
         getUsersOfServer(joinedServer)
     }, [])
@@ -94,7 +94,6 @@ export const MessageProvider = ({ children }) => {
 
     const value = {
         sendMessage,
-        gettingMessagesOfServer,
         messagesOfServer,
         usersOfServer
     }

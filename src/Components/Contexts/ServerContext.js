@@ -15,8 +15,7 @@ export const ServerProvider = ({ children }) => {
     const { user } = useUser()
 
     const { joinedServer } = useParams()
-    const [joinedServers, setjoinedServers] = useState([])
-    const [gettingJoinedServer, setgettingJoinedServer] = useState(true)
+    const [joinedServers, setjoinedServers] = useState(null)
 
     const getJoinedServers = async (user) => {
         let results = []
@@ -35,7 +34,6 @@ export const ServerProvider = ({ children }) => {
         
 
         setjoinedServers(results)
-        setgettingJoinedServer(false)
     }
 
     useEffect( () => {
@@ -49,7 +47,7 @@ export const ServerProvider = ({ children }) => {
 
     return (
         <ServerContext.Provider value={value}>
-            { !gettingJoinedServer && children }
+            { joinedServers && children }
         </ServerContext.Provider>
     )
 }

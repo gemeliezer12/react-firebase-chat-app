@@ -69,7 +69,7 @@ const MessageBox = ({ joinedServer }) => {
                         <div style={{
                             height: "20px",
                         }}>
-                            <img src="images/gif.png" alt="" style={{
+                            <img src="../../images/gif.png" alt="" style={{
                                 height: "100%",
                                 filter: "grayscale(100%)"
                             }}/>
@@ -79,7 +79,7 @@ const MessageBox = ({ joinedServer }) => {
                         <div style={{
                             height: "20px",
                         }}>
-                            <img src="images/emoji.png" alt="" style={{
+                            <img src="../../images/emoji.png" alt="" style={{
                                 height: "100%",
                                 filter: "grayscale(100%)"
                             }}/>

@@ -41,8 +41,6 @@ export const UserProvider = ({ children }) => {
         user,
     }
 
-    console.log(gettingUser);
-
     return (
         <UserContext.Provider value={value}>
             { !gettingUser && children }

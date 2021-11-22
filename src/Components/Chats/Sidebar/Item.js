@@ -6,7 +6,7 @@ import { useServer } from "../../Contexts/ServerContext"
 
 const Server = ({id, item, index}) => {
     const [isHovering, setisHovering] = useState(false)
-    const { joinedServer, joinedServers } = useServer()
+    const { joinedServer } = useServer()
 
 
     const current = id === joinedServer

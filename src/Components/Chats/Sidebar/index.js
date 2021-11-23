@@ -1,8 +1,11 @@
+
 import { useServer } from "../../Contexts/ServerContext"
+import { useUser } from "../../Contexts/UserContext"
 import Item from "./Item"
 
 const Index = () => {
-    const { joinedServers } = useServer()
+    const { joinedServers, joinedServer } = useServer()
+    const { user } = useUser()
 
     return (
         <div className="sidebar padding-y-10" style={{
@@ -10,8 +13,8 @@ const Index = () => {
         }}>
             <div className="column gap-10">
                 <div className="column gap-10">
-                    {joinedServers.map((item, index) => (
-                        <Item index={index} key={item.id} item={item.server} id={item.id}/>
+                    {user.user.joinedServers.arrayValue.values.map((item) => (
+                        <Item key={item.stringValue} id={item.stringValue}></Item>
                     ))}
                 </div>
             </div>

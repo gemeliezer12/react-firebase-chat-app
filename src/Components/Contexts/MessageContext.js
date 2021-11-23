@@ -14,7 +14,7 @@ export const useMessage = () => useContext(MessageContext)
 export const MessageProvider = ({ children }) => {
 
     const { user, includesObject } = useUser()
-    const { joinedServer, joinedServers } = useServer()
+    const { joinedServer } = useServer()
     const [messagesOfServer, setmessagesOfServer] = useState()
     const [usersOfServer, setusersOfServer] = useState()
     
@@ -32,13 +32,7 @@ export const MessageProvider = ({ children }) => {
     const getMessagesOfServer = async (serverId) => {
         let results = []
 
-        if (!includesObject(joinedServers, "id", joinedServer)) {
-            setmessagesOfServer(null)
-            return
-        }
-
         const messages = (await db.collection("messages").where("serverId", "==", serverId).get()).docs
-
 
         for (let i = 0; i < messages.length; i++) {
             const message = messages[i]._delegate._document.data.value.mapValue.fields

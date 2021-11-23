@@ -1,15 +1,32 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 import { Link } from "react-router-dom"
 
 import { useServer } from "../../Contexts/ServerContext"
+import { firebase } from "../../../firebase"
 
-const Server = ({id, item, index}) => {
+const db = firebase.firestore()
+
+// const Server = ({id}) => {
+const Server = ({id}) => {
     const [isHovering, setisHovering] = useState(false)
     const { joinedServer } = useServer()
 
+    const [item, setitem] = useState(null)
 
     const current = id === joinedServer
+
+    const getServerData = async (id) => {
+        const server = (await db.collection("servers").doc(id).get())._delegate._document.data.value.mapValue.fields
+
+        setitem(server)
+    }
+
+    useEffect(() => {
+        getServerData(id)
+    }, [])
+
+    if (item === null) return ""
 
     const Thumbnail = () => {
         switch (item.icon.mapValue.fields.type.stringValue) {

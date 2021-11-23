@@ -41,7 +41,7 @@ export const ServerProvider = ({ children }) => {
     }, [])
 
     const value = {
-        joinedServers,
+        // joinedServers,
         joinedServer
     }
 

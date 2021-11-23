@@ -2,15 +2,15 @@ import { useEffect, useState } from "react"
 
 import { Link } from "react-router-dom"
 
-import { useServer } from "../../Contexts/ServerContext"
 import { firebase } from "../../../firebase"
+import { useUser } from "../../Contexts/UserContext"
 
 const db = firebase.firestore()
 
 // const Server = ({id}) => {
 const Server = ({id}) => {
     const [isHovering, setisHovering] = useState(false)
-    const { joinedServer } = useServer()
+    const { joinedServer } = useUser()
 
     const [item, setitem] = useState(null)
 

@@ -2,7 +2,6 @@ import { Route, Routes } from "react-router-dom"
 
 import { UserProvider } from "./Components/Contexts/UserContext"
 import { MessageProvider } from "./Components/Contexts/MessageContext"
-import { ServerProvider } from "./Components/Contexts/ServerContext"
 
 import Chats from "./Components/Chats/"
 import Login from "./Components/Login/"
@@ -26,11 +25,9 @@ function App() {
                     }/>
                 <Route path="/chats/:joinedServer" element={
                     <UserProvider>
-                        <ServerProvider>
                             <MessageProvider>
                                 <Chats/>
                             </MessageProvider>
-                        </ServerProvider>
                     </UserProvider>
                 }/>
             </Routes>

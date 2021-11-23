@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react"
-import { useNavigate } from "react-router"
+import { useNavigate, useParams } from "react-router-dom"
 
 import { firebase } from "../../firebase"
 
@@ -12,6 +12,7 @@ export const useUser = () => useContext(UserContext)
 export const UserProvider = ({ children }) => {
     const [user, setuser] = useState(null)
     const navigate = useNavigate()
+    const { joinedServer } = useParams()
     
     const getUser = async (user) => {
 
@@ -50,7 +51,8 @@ export const UserProvider = ({ children }) => {
 
     const value = {
         user,
-        includesObject
+        includesObject,
+        joinedServer
     }
 
     return (

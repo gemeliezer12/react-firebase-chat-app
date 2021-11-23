@@ -1,11 +1,11 @@
 import MessageBox from "./MessageBox";
 import Chat from "./Chat"
 import { useMessage } from "../../Contexts/MessageContext";
-import { useServer } from "../../Contexts/ServerContext";
+import { useUser } from "../../Contexts/UserContext";
 
 const Index = () => {
     const { messagesOfServer } =  useMessage()
-    const { joinedServer } = useServer()
+    const { joinedServer } = useUser()
 
     return (
         <div className="conversations" style={{

@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect } from "react"
-import { useServer } from "./ServerContext"
 import { useUser } from "./UserContext"
 
 import { firebase } from "../../firebase"
@@ -13,8 +12,7 @@ export const useMessage = () => useContext(MessageContext)
 
 export const MessageProvider = ({ children }) => {
 
-    const { user, includesObject } = useUser()
-    const { joinedServer } = useServer()
+    const { user, joinedServer } = useUser()
     const [messagesOfServer, setmessagesOfServer] = useState()
     const [usersOfServer, setusersOfServer] = useState()
     

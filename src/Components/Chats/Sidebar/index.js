@@ -1,10 +1,7 @@
-
-import { useServer } from "../../Contexts/ServerContext"
 import { useUser } from "../../Contexts/UserContext"
 import Item from "./Item"
 
 const Index = () => {
-    const { joinedServers, joinedServer } = useServer()
     const { user } = useUser()
 
     return (

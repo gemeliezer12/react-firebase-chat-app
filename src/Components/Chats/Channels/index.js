@@ -1,8 +1,24 @@
+import { useEffect } from "react"
+
 import { useUser } from "../../Contexts/UserContext"
 import Profile from "./Profile"
+import Channel from "./Channel"
+import { firebase } from "../../../firebase"
+
+const db = firebase.firestore()
 
 const Index = () => {
-    const { user } = useUser()
+    const { user, joinedServer } = useUser()
+
+    const channelsOfServer = async () => {
+        const channels = (await db.collection("servers").doc(joinedServer).collection("channels").get()).docs
+
+        console.log(channels)
+    }
+
+    useEffect(() => {
+        channelsOfServer(joinedServer)
+    }, [])
 
     return (
         <div className="channels" style={{
@@ -20,9 +36,7 @@ const Index = () => {
                 }}>
                     
                 </div>
-                <div>
-                    
-                </div>
+                <Channel/>
                 <Profile user={user.user}/>
             </div>
         </div>

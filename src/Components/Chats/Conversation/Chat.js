@@ -1,10 +1,7 @@
-import { useMessage } from "../../Contexts/MessageContext"
+
 import Message from "./Message"
 
 const Chat = ({messages}) => {
-
-    const { messagesOfServer } = useMessage()
-
 
     return (
         <div className="height-100pc padding-y-10" style={{
@@ -14,7 +11,7 @@ const Chat = ({messages}) => {
         }}>
             <div className="padding-x-15">
                 <div className="column gap-10">
-                    {!messagesOfServer ? "" : 
+                    {!messages ? "" : 
                         messages.map((message) => (
                             <Message key={message.id} message={message.message} user={message.user} server={message.server}/>
                         ))

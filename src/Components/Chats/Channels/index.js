@@ -1,19 +1,22 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 import { useUser } from "../../Contexts/UserContext"
 import Profile from "./Profile"
-import Channel from "./Channel"
 import { firebase } from "../../../firebase"
+import Channels from "./Channels"
 
 const db = firebase.firestore()
 
 const Index = () => {
     const { user, joinedServer } = useUser()
+    const [channels, setchannels] = useState(null)
 
     const channelsOfServer = async () => {
-        const channels = (await db.collection("servers").doc(joinedServer).collection("channels").get()).docs
 
-        console.log(channels)
+        const channels = (await db.collection("servers").doc(joinedServer).get())._delegate._document.data.value.mapValue.fields.channels.arrayValue.values
+
+
+        setchannels(channels)
     }
 
     useEffect(() => {
@@ -36,7 +39,7 @@ const Index = () => {
                 }}>
                     
                 </div>
-                <Channel/>
+                <Channels channels={channels}/>
                 <Profile user={user.user}/>
             </div>
         </div>

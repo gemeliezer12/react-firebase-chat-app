@@ -1,4 +1,7 @@
-const Channel = () => {
+const Channel = ({channel}) => {
+
+    console.log(channel)
+
     return (
         <div>
             

@@ -3,18 +3,17 @@ import Channel from "./Channel"
 
 const Channels = ({channels}) => {
     return (
-        <div>
+        <div className="column">
             {
                 channels === null ?
                 ""
                 :
-                channels.map((channel) => {
-                    
+                channels.map((channel, index) => {
                     if (channel.mapValue) return (
-                        <Category channels={channel}/>
+                        <Category key={index} channels={channel}/>
                     )
                     else return (
-                        <Channel channel={channel}/>
+                        <Channel key={channel.stringValue} channelId={channel}/>
                     )
                 })
             }

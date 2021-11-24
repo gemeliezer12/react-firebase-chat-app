@@ -12,30 +12,14 @@ export const useUser = () => useContext(UserContext)
 export const UserProvider = ({ children }) => {
     const [user, setuser] = useState(null)
     const navigate = useNavigate()
-    const { joinedServer } = useParams()
+    const { currentServer, currentChannel } = useParams()
     
     const getUser = async (user) => {
-
         const response =  (await db.collection("users").doc(user).get())._delegate._document.data.value.mapValue.fields
 
-        
         setuser(
             {user: response, id: user}
         )
-    }
-    
-    const includesObject = (array, key, value ) => {
-
-
-        for (let i = 0; i < array.length; i++) {
-            
-            if(eval(`array[i].${key}`) === value) {
-                return true
-            }
-            
-        }
-
-        return false
     }
 
     useEffect(() => {
@@ -51,8 +35,8 @@ export const UserProvider = ({ children }) => {
 
     const value = {
         user,
-        includesObject,
-        joinedServer
+        currentServer,
+        currentChannel
     }
 
     return (

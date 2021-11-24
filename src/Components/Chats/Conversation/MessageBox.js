@@ -6,7 +6,7 @@ function onlySpaces(str) {
     return str.trim().length === 0;
 }
 
-const MessageBox = ({ joinedServer }) => {
+const MessageBox = ({ currentServer }) => {
 
     const { sendMessage } = useMessage()
 
@@ -33,7 +33,7 @@ const MessageBox = ({ joinedServer }) => {
         e.preventDefault()
 
         if(message.isValid){
-            sendMessage({...message, serverId: joinedServer})
+            sendMessage({...message })
             setmessage({...message, value: "", })
         }
     }

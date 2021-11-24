@@ -8,19 +8,19 @@ import Channels from "./Channels"
 const db = firebase.firestore()
 
 const Index = () => {
-    const { user, joinedServer } = useUser()
+    const { user, currentServer } = useUser()
     const [channels, setchannels] = useState(null)
 
     const channelsOfServer = async () => {
 
-        const channels = (await db.collection("servers").doc(joinedServer).get())._delegate._document.data.value.mapValue.fields.channels.arrayValue.values
+        const channels = (await db.collection("servers").doc(currentServer).get())._delegate._document.data.value.mapValue.fields.channels.arrayValue.values
 
 
         setchannels(channels)
     }
 
     useEffect(() => {
-        channelsOfServer(joinedServer)
+        channelsOfServer(currentServer)
     }, [])
 
     return (

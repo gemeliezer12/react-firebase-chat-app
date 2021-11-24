@@ -12,32 +12,41 @@ export const useMessage = () => useContext(MessageContext)
 
 export const MessageProvider = ({ children }) => {
 
-    const { user, currentServer ,currentChannel } = useUser()
+    const { user, joinedServer } = useUser()
     const [messagesOfServer, setmessagesOfServer] = useState()
     const [usersOfServer, setusersOfServer] = useState()
-    const [messagesOfChannel, setmessagesOfChannel] = useState()
     
 
     const sendMessage = async (e) => {
-        // await db.collection("messages").add({
-        //     userId: user.id,
-        //     serverId: e.serverId,
-        //     value: e.value,
-        //     dateCreated: date.getTime()
-        // })
-        console.log(
-            await db.collection("servers").doc(currentServer).collection("channels").doc(currentChannel).collection("messages").add({
-                userId: user.id,
-                value: e.value,
-                dateCreated: date.getTime()
-            })
-        )
+        await db.collection("messages").add({
+            userId: user.id,
+            serverId: e.serverId,
+            value: e.value,
+            dateCreated: date.getTime()
+        })
     }
 
-    const getChannelData = async (channelId, serverId) => {
-        const channelData = (await db.collection("servers").doc(serverId).collection("channels").doc(channelId).get())._delegate._document.data.value.mapValue.fields
 
-        return(channelData)
+    const getMessagesOfServer = async (serverId) => {
+        let results = []
+
+        const messages = (await db.collection("messages").where("serverId", "==", serverId).get()).docs
+
+        for (let i = 0; i < messages.length; i++) {
+            const message = messages[i]._delegate._document.data.value.mapValue.fields
+
+            const promise = await Promise.all([db.collection("users").doc(message.userId.stringValue).get(), db.collection("servers").doc(message.serverId.stringValue).get()])
+
+            const user = promise[0]._delegate._document.data.value.mapValue.fields
+            const server = promise[1]._delegate._document.data.value.mapValue.fields
+
+            results.push({message: message, user: user, server: server, id: messages[i].id})
+        }
+        
+        if (serverId !== window.location.pathname.split("/")[2]) return
+
+        
+        setmessagesOfServer(results)
     }
 
     const getUsersOfServer = async (serverId) => {
@@ -55,42 +64,28 @@ export const MessageProvider = ({ children }) => {
         setusersOfServer(results)
     }
 
-    const getChannelMessage = async (channelId, serverId) => {
-        const results = []
-
-        const channelMessages = (await db.collection("servers").doc(serverId).collection("channels").doc(channelId).collection("messages").get()).docs
-        
-        for (let i = 0; i < channelMessages.length; i++) {
-            const message = channelMessages[i]._delegate._document.data.value.mapValue.fields
-
-            const user = (await db.collection("users").doc(message.userId.stringValue).get())._delegate._document.data.value.mapValue.fields
-
-            results.push({message: message, id: channelMessages[i].id, user: user})
-        }
-
-        return results
-    }
-
-    useEffect( async () => {
-        setmessagesOfChannel(
-            await getChannelMessage(currentChannel, currentServer)
-        )
-        getUsersOfServer(currentServer)
+    useEffect( () => {
+        getMessagesOfServer(joinedServer)
+        getUsersOfServer(joinedServer)
     }, [])
 
-    useEffect( async () => {
-        setmessagesOfChannel(
-            await getChannelMessage(currentChannel, currentServer)
-        )
-        getUsersOfServer(currentServer)
-    }, [currentServer, currentChannel])
+    useEffect(() => {
+        getMessagesOfServer(joinedServer)
+        getUsersOfServer(joinedServer)
+    }, [joinedServer])
+
+    useEffect( () => {
+        const unsubscribe = db.collection("messages").onSnapshot( (snap) => {
+            getMessagesOfServer(joinedServer)
+        })
+
+        return () => unsubscribe()
+    }, [])
 
     const value = {
         sendMessage,
-        messagesOfChannel,
-        usersOfServer,
-        getChannelData,
-        getChannelMessage
+        messagesOfServer,
+        usersOfServer
     }
 
     return (

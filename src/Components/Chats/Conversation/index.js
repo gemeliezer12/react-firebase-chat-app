@@ -4,8 +4,8 @@ import { useMessage } from "../../Contexts/MessageContext";
 import { useUser } from "../../Contexts/UserContext";
 
 const Index = () => {
-    const { messagesOfChannel } =  useMessage()
-    const { currentServer } = useUser()
+    const { messagesOfServer } =  useMessage()
+    const { joinedServer } = useUser()
 
     return (
         <div className="conversations" style={{
@@ -17,8 +17,8 @@ const Index = () => {
                 flexDirection: "column",
                 height: "calc(100vh - 50px)"
             }}>
-                <Chat messages={messagesOfChannel}/>
-                <MessageBox currentServer={currentServer}/>
+                <Chat messages={messagesOfServer}/>
+                <MessageBox joinedServer={joinedServer}/>
             </div>
         </div>
     )

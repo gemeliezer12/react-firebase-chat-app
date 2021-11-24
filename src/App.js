@@ -23,7 +23,7 @@ function App() {
                         <Login/>
                     </UserProvider>
                     }/>
-                <Route path="/chats/:currentServer/:currentChannel" element={
+                <Route path="/chats/:joinedServer" element={
                     <UserProvider>
                             <MessageProvider>
                                 <Chats/>
